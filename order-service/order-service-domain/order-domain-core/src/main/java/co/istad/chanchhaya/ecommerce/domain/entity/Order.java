@@ -7,14 +7,51 @@ import java.util.List;
 
 public class Order extends AggregateRoot<OrderId> {
     private final CustomerId customerId;
+
     private final BusinessId businessId;
+
     private final StreetAddress deliveryAddress;
+
     private final Money price;
+
     private final List<OrderItem> items;
 
     private TrackingId trackingId;
     private OrderStatus orderStatus;
     private List<String> failureMessages;
+
+
+    // ========== critical business logic ============= //
+    public void validateOrder() {
+        // TODO:
+    }
+
+
+    public void initializeOrder() {
+        // TODO:
+    }
+
+
+    public void pay() {
+
+    }
+
+
+    public void approve() {
+
+    }
+
+
+    public void initCancel() {
+
+    }
+
+
+    public void cancel() {
+
+    }
+
+
 
     public CustomerId getCustomerId() {
         return customerId;
