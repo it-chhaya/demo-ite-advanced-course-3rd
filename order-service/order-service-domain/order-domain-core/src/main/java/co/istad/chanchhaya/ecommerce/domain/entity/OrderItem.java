@@ -15,6 +15,26 @@ public class OrderItem extends BaseEntity<OrderItemId> {
 
     private final Money subTotal;
 
+
+    // ============ Critical Business Logic ============ //
+    // តើតម្លៃត្រឹមត្រូវដែរឬទេ?
+    boolean isPriceValid() {
+        return price.isGreaterThanZero() &&
+                price.equals(product.getPrice()) &&
+                price.multiply(quantity).equals(subTotal);
+    }
+
+    public void initializeOrderItem(OrderId orderId, OrderItemId orderItemId) {
+        this.orderId = orderId;
+        super.setId(orderItemId);
+    }
+
+
+
+
+
+
+
     public OrderId getOrderId() {
         return orderId;
     }
@@ -47,6 +67,8 @@ public class OrderItem extends BaseEntity<OrderItemId> {
     public static Builder builder() {
         return new Builder();
     }
+
+
 
 
     public static final class Builder {

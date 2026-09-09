@@ -37,6 +37,31 @@
                 <artifactId>order-domain-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>co.istad.chanchhaya</groupId>
+                <artifactId>order-application-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>co.istad.chanchhaya</groupId>
+                <artifactId>order-service-messaging</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>co.istad.chanchhaya</groupId>
+                <artifactId>order-service-persistence</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>co.istad.chanchhaya</groupId>
+                <artifactId>order-service-restapi</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>co.istad.chanchhaya</groupId>
+                <artifactId>order-service-main</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

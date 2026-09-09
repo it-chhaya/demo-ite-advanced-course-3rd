@@ -11,5 +11,11 @@
 
     <artifactId>order-service-restapi</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>co.istad.chanchhaya</groupId>
+            <artifactId>order-application-service</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

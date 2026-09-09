@@ -7,6 +7,9 @@ public record Money(
         // ទឹកលុយ
         BigDecimal amount
 ) {
+
+    public static final Money ZERO = new Money(BigDecimal.ZERO);
+
     // ផ្ទៀងផ្ទាត់ទឹកលុយធំជាងសូន្យ
     public boolean isGreaterThanZero() {
         return amount.compareTo(BigDecimal.ZERO) > 0;
