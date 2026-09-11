@@ -2,11 +2,18 @@ package co.istad.chhanchhaya.ecommerce.persistence.entity;
 
 import co.istad.chanchhaya.ecommerce.domain.valueobject.OrderStatus;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
+// JPA Entity must be POJO (Plain Old Java Object) class
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity // Create table name = order
 @Table(name = "orders")
 public class OrderEntity {
@@ -24,7 +31,7 @@ public class OrderEntity {
     private List<OrderItemEntity> items;
 
     @OneToOne
-    private StreetAddressEntity streetAddress;
+    private OrderAddressEntity orderAddress;
 
     private UUID trackingId;
 

@@ -1,12 +1,18 @@
 package co.istad.chhanchhaya.ecommerce.persistence.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.UUID;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "order_addresses")
-public class StreetAddressEntity {
+public class OrderAddressEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -14,6 +20,6 @@ public class StreetAddressEntity {
     private String postalCode;
     private String city;
 
-    @OneToOne(mappedBy = "streetAddress")
+    @OneToOne(mappedBy = "orderAddress")
     private OrderEntity order;
 }
