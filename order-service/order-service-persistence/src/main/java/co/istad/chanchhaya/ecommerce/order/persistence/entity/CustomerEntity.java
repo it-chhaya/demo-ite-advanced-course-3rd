@@ -1,4 +1,4 @@
-package co.istad.chhanchhaya.ecommerce.persistence.entity;
+package co.istad.chanchhaya.ecommerce.order.persistence.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

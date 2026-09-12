@@ -1,7 +1,7 @@
-package co.istad.chhanchhaya.ecommerce.persistence.repository;
+package co.istad.chanchhaya.ecommerce.order.persistence.repository;
 
 
-import co.istad.chhanchhaya.ecommerce.persistence.entity.OrderEntity;
+import co.istad.chanchhaya.ecommerce.order.persistence.entity.OrderEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

@@ -1,8 +1,8 @@
-package co.istad.chhanchhaya.ecommerce.persistence.adapter;
+package co.istad.chanchhaya.ecommerce.order.persistence.adapter;
 
 import co.istad.chanchhaya.ecommerce.domain.entity.Order;
 import co.istad.chanchhaya.ecommerce.domain.port.ouput.OrderRepository;
-import co.istad.chhanchhaya.ecommerce.persistence.repository.OrderJpaRepository;
+import co.istad.chanchhaya.ecommerce.order.persistence.repository.OrderJpaRepository;
 
 public class OrderRepositoryAdapter implements OrderRepository {
 
