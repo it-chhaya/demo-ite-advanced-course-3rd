@@ -14,6 +14,11 @@
     <dependencies>
         <dependency>
             <groupId>co.istad.chanchhaya</groupId>
+            <artifactId>common-restapi</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>co.istad.chanchhaya</groupId>
             <artifactId>order-application-service</artifactId>
         </dependency>
 
