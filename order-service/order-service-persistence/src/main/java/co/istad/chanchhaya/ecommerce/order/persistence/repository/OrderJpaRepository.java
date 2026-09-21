@@ -14,6 +14,5 @@ import java.util.UUID;
 // 3. Derived Query Method (Auto generate SQL)
 // 4. Object Relational Mapping (ORM) Hibernate
 // 5. Specification (dynamic query)
-
 public interface OrderJpaRepository extends JpaRepository<OrderEntity, UUID> {
 }

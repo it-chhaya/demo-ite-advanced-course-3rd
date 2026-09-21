@@ -2,9 +2,11 @@ package co.istad.chanchhaya.ecommerce.order.domain.usecase;
 
 import co.istad.chanchhaya.ecommerce.order.domain.dto.CreateOrderCommand;
 import co.istad.chanchhaya.ecommerce.order.domain.dto.CreateOrderResult;
+import co.istad.chanchhaya.ecommerce.order.domain.entity.Customer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Component

@@ -1,14 +1,13 @@
 package co.istad.chanchhaya.ecommerce.order.persistence.mapper;
 
-import co.istad.chanchhaya.ecommerce.order.domain.entity.Customer;
-import co.istad.chanchhaya.ecommerce.order.persistence.entity.CustomerEntity;
+import co.istad.chanchhaya.ecommerce.order.domain.entity.Order;
+import co.istad.chanchhaya.ecommerce.order.persistence.entity.OrderEntity;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface OrderPersistenceMapper {
 
-    @Mapping(source = "id", target = "id.value")
-    Customer customerEntityToCustomer(CustomerEntity customerEntity);
+    OrderEntity orderToOrderEntity(Order order);
 
+    Order orderEntityToOrder(OrderEntity orderEntity);
 }
