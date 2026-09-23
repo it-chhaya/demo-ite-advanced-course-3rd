@@ -24,7 +24,7 @@ public interface OrderPersistenceMapper {
 
     @Named("mapFailureMessages")
     default String mapFailureMessages(List<String> failureMessages) {
-        return String.join(",", failureMessages);
+        return failureMessages == null ? "" : String.join(",", failureMessages);
     }
 
 
@@ -52,7 +52,7 @@ public interface OrderPersistenceMapper {
 
     @Named("mapFailureMessagesToList")
     default List<String> mapFailureMessagesToList(String failureMessages) {
-        return Arrays.stream(failureMessages.split(",")).toList();
+        return failureMessages == null ? List.of("") : Arrays.stream(failureMessages.split(",")).toList();
     }
 
 }

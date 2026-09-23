@@ -56,7 +56,7 @@ public class Order extends AggregateRoot<OrderId> {
     }
 
 
-    public void initCancel() {
+    public void initCancel(List<String> failureMessages) {
         if (orderStatus != OrderStatus.PAID) {
             throw new OrderDomainException("Order is not in correct state for init cancel operation");
         }
@@ -65,7 +65,7 @@ public class Order extends AggregateRoot<OrderId> {
     }
 
 
-    public void cancel() {
+    public void cancel(List<String> failureMessages) {
         if (!(orderStatus == OrderStatus.CANCELLING || orderStatus == OrderStatus.PENDING)) {
             throw new OrderDomainException("Order is not in correct state for cancel operation");
         }
@@ -109,9 +109,12 @@ public class Order extends AggregateRoot<OrderId> {
                 })
                 .reduce(Money.ZERO, Money::add);
 
+        System.out.println("Price: " + price.getAmount());
+        System.out.println("Order Items Total Price: " + orderItemsTotalPrice.getAmount());
+
         if (!price.equals(orderItemsTotalPrice)) {
-            throw new OrderDomainException("Total price: " + price.amount()
-                    + " is not equal to order items total price: " + orderItemsTotalPrice.amount());
+            throw new OrderDomainException("Total price: " + price.getAmount()
+                    + " is not equal to order items total price: " + orderItemsTotalPrice.getAmount());
         }
     }
 
@@ -123,7 +126,7 @@ public class Order extends AggregateRoot<OrderId> {
      */
     private void validateItemPrice(OrderItem orderItem) {
         if (!orderItem.isPriceValid()) {
-            throw new OrderDomainException("Order item price: " + orderItem.getPrice().amount() +
+            throw new OrderDomainException("Order item price: " + orderItem.getPrice().getAmount() +
                     " is not valid for product: " + orderItem.getProduct().getId().value());
         }
     }
@@ -137,7 +140,6 @@ public class Order extends AggregateRoot<OrderId> {
     }
 
     // ========== end critical business logic ============= //
-
 
 
     public CustomerId getCustomerId() {
