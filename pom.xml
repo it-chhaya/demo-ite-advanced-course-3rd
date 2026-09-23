@@ -43,6 +43,12 @@
 
             <dependency>
                 <groupId>co.istad.chanchhaya</groupId>
+                <artifactId>common-persistence</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>co.istad.chanchhaya</groupId>
                 <artifactId>order-domain-core</artifactId>
                 <version>${project.version}</version>
             </dependency>

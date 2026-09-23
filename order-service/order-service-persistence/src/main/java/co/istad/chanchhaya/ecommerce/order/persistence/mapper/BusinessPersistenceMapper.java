@@ -6,7 +6,7 @@ import co.istad.chanchhaya.ecommerce.domain.valueobject.ProductId;
 import co.istad.chanchhaya.ecommerce.order.domain.entity.Business;
 import co.istad.chanchhaya.ecommerce.order.domain.entity.Product;
 import co.istad.chanchhaya.ecommerce.order.persistence.entity.BusinessEntity;
-import co.istad.chanchhaya.ecommerce.order.persistence.exception.BusinessPersistenceException;
+import co.istad.chanchhaya.ecommerce.persistence.business.exception.BusinessPersistenceException;
 import org.mapstruct.Mapper;
 
 import java.util.List;

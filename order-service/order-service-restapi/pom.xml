@@ -19,6 +19,11 @@
 
         <dependency>
             <groupId>co.istad.chanchhaya</groupId>
+            <artifactId>common-persistence</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>co.istad.chanchhaya</groupId>
             <artifactId>order-application-service</artifactId>
         </dependency>
 
