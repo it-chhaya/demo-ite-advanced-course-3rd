@@ -13,18 +13,19 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "order_items")
+@IdClass(OrderItemIdEntity.class)
 public class OrderItemEntity {
 
     @Id
     private Integer id;
+
+    @Id
+    @ManyToOne
+    private OrderEntity order;
 
     private UUID productId;
 
     private Integer quantity;
     private BigDecimal price;
     private BigDecimal subTotal;
-
-    @ManyToOne
-    private OrderEntity order;
-
 }

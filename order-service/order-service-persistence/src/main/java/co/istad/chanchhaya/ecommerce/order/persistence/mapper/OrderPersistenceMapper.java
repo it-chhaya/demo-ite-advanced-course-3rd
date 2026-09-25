@@ -1,7 +1,9 @@
 package co.istad.chanchhaya.ecommerce.order.persistence.mapper;
 
+import co.istad.chanchhaya.ecommerce.domain.valueobject.StreetAddress;
 import co.istad.chanchhaya.ecommerce.order.domain.entity.Order;
 import co.istad.chanchhaya.ecommerce.order.domain.entity.OrderItem;
+import co.istad.chanchhaya.ecommerce.order.persistence.entity.OrderAddressEntity;
 import co.istad.chanchhaya.ecommerce.order.persistence.entity.OrderEntity;
 import co.istad.chanchhaya.ecommerce.order.persistence.entity.OrderItemEntity;
 import org.mapstruct.Mapper;
@@ -19,8 +21,12 @@ public interface OrderPersistenceMapper {
     @Mapping(source = "businessId.value", target = "businessId")
     @Mapping(source = "price.amount", target = "price")
     @Mapping(source = "trackingId.value", target = "trackingId")
+    @Mapping(source = "deliveryAddress", target = "orderAddress")
     @Mapping(source = "failureMessages", target = "failureMessages", qualifiedByName = "mapFailureMessages")
     OrderEntity orderToOrderEntity(Order order);
+
+    @Mapping(target = "id", expression = "java(UUID.randomUUID())")
+    OrderAddressEntity deliveryAddressToOrderAddressEntity(StreetAddress deliveryAddress);
 
     @Named("mapFailureMessages")
     default String mapFailureMessages(List<String> failureMessages) {
