@@ -18,6 +18,9 @@
     <modules>
         <module>common</module>
         <module>order-service</module>
+        <module>customer-service</module>
+        <module>business-service</module>
+        <module>payment-service</module>
     </modules>
 
     <properties>
@@ -75,6 +78,96 @@
             <dependency>
                 <groupId>co.istad.chanchhaya</groupId>
                 <artifactId>order-service-main</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>co.istad.chanchhaya</groupId>
+                <artifactId>customer-domain-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>co.istad.chanchhaya</groupId>
+                <artifactId>customer-application-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>co.istad.chanchhaya</groupId>
+                <artifactId>customer-service-main</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>co.istad.chanchhaya</groupId>
+                <artifactId>customer-service-persistence</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>co.istad.chanchhaya</groupId>
+                <artifactId>customer-service-restapi</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>co.istad.chanchhaya</groupId>
+                <artifactId>customer-service-messaging</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>co.istad.chanchhaya</groupId>
+                <artifactId>business-domain-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>co.istad.chanchhaya</groupId>
+                <artifactId>business-application-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>co.istad.chanchhaya</groupId>
+                <artifactId>business-service-main</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>co.istad.chanchhaya</groupId>
+                <artifactId>business-service-persistence</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>co.istad.chanchhaya</groupId>
+                <artifactId>payment-domain-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>co.istad.chanchhaya</groupId>
+                <artifactId>payment-application-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>co.istad.chanchhaya</groupId>
+                <artifactId>payment-service-persistence</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>co.istad.chanchhaya</groupId>
+                <artifactId>payment-service-main</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>co.istad.chanchhaya</groupId>
+                <artifactId>payment-service-messaging</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

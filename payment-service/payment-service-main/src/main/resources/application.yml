@@ -1,0 +1,19 @@
+# Change order service running port
+server:
+  port: 8553
+
+spring:
+  application:
+    name: payment-service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: ecommerce_usr
+    password: qwerqwer
+    url: jdbc:postgresql://localhost:8432/db_payment
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
