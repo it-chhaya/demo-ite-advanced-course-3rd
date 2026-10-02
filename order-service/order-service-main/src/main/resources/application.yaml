@@ -1,10 +1,20 @@
 # Change order service running port
 server:
-  port: 8550
+  port: 0
 
 spring:
   application:
     name: order-service
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        namespace: ${spring.profiles.active}
+      username: nacos
+      password: qwer
+      server-addr: 127.0.0.1:8848
+
   datasource:
     driver-class-name: org.postgresql.Driver
     username: ecommerce_usr
