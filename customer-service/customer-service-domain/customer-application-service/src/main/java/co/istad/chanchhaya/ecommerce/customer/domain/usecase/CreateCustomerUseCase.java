@@ -29,6 +29,7 @@ public class CreateCustomerUseCase {
         if (customerRepository.existsByUsername(createCustomerCommand.username())) {
             throw new CustomerDomainException("Username already exists");
         }
+
         if (customerRepository.existsByEmail(createCustomerCommand.email())) {
             throw new CustomerDomainException("Email already exists");
         }

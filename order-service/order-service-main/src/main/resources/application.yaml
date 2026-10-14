@@ -6,7 +6,7 @@ spring:
   application:
     name: order-service
   profiles:
-    active: prod
+    active: dev
   config:
     import:
       - nacos:${spring.application.name}.${spring.cloud.nacos.config.file-extension}

@@ -21,6 +21,7 @@
         <module>customer-service</module>
         <module>business-service</module>
         <module>payment-service</module>
+        <module>gateway-service</module>
     </modules>
 
     <properties>
