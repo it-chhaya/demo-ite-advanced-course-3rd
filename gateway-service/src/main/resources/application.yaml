@@ -1,6 +1,7 @@
 server:
   port: 8585
 
+
 spring:
   application:
     name: gateway-service
@@ -10,13 +11,66 @@ spring:
     gateway:
       server:
         webflux:
+#          routes:
+#            - id: order-service
+#              uri: lb://order-service # lb=load balance, order-service is application name
+#              predicates:
+#                - Path=/mptc-order-service/**
+#              filters:
+#                - RewritePath=/mptc-order-service/?(?<segment>.*), /$\{segment}
           discovery:
             locator:
               enabled: true # enable to work with nacos service discovery
               lower-case-service-id: true
+          trusted-proxies: ".*"
+
     nacos:
       discovery:
         namespace: ${spring.profiles.active}
       username: nacos
       password: qwer
       server-addr: 127.0.0.1:8848
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8888/realms/ecommerce
+        registration:
+          ecommerce-postman:
+            provider: keycloak
+            client-id: ecommerce-postman
+            #client-secret: secret
+            scope:
+              - openid
+              - email
+              - profile
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:8585/login/oauth2/code/ecommerce-postman
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: 'health,info,gateway'
+  endpoint:
+    gateway:
+      access: read_only
+
+scalar:
+  sources:
+    - title: Order Service
+      url: /order-service/v3/api-docs
+    - title: Customer Service
+      url: /customer-service/v3/api-docs
+
+springdoc:
+  swagger-ui:
+    urls:
+      - name: Order Service
+        url: /order-service/v3/api-docs
+      - name: Customer Service
+        url: /customer-service/v3/api-docs
+    #enabled: false
+  #api-docs:
+    #enabled: false
