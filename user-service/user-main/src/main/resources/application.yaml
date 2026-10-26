@@ -1,6 +1,7 @@
-# Change order service running port
+# Change user service running port
 server:
   port: 8554
+  forward-headers-strategy: framework
 
 spring:
   application:

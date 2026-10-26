@@ -81,6 +81,8 @@ scalar:
       url: /order-service/v3/api-docs
     - title: Customer Service
       url: /customer-service/v3/api-docs
+    - title: User Service
+      url: /user-service/v3/api-docs
 
 springdoc:
   swagger-ui:
@@ -89,6 +91,8 @@ springdoc:
         url: /order-service/v3/api-docs
       - name: Customer Service
         url: /customer-service/v3/api-docs
+      - name: User Service
+        url: /user-service/v3/api-docs
     #enabled: false
   #api-docs:
     #enabled: false
