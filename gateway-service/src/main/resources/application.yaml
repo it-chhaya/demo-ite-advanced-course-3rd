@@ -7,11 +7,26 @@ spring:
     name: gateway-service
   profiles:
     active: dev
+  data:
+    redis:
+      host: localhost
+      port: 6379
   cloud:
     gateway:
       server:
         webflux:
-#          routes:
+          routes:
+#            - id: swagger-ui
+#              uri: http://localhost:8585
+#              predicates:
+#                - Path=/swagger-ui/**
+#              filters:
+#                - RewritePath=/swagger-ui/?(?<segment>.*), /swagger-ui/$\{segment}
+#            - id: vuejs
+#              uri: http://[::1]:5173 #http://localhost:5173
+#              #uri: http://localhost:3000
+#              predicates:
+#                - Path=/**
 #            - id: order-service
 #              uri: lb://order-service # lb=load balance, order-service is application name
 #              predicates:
@@ -23,6 +38,9 @@ spring:
               enabled: true # enable to work with nacos service discovery
               lower-case-service-id: true
           trusted-proxies: ".*"
+          default-filters:
+            - SaveSession
+            - TokenRelay=
 
     nacos:
       discovery:
