@@ -1,5 +1,6 @@
 package co.istad.chanchhaya.ecommerce.user.service.impl;
 
+import co.istad.chanchhaya.ecommerce.user.config.KeycloakAdminClientConfig;
 import co.istad.chanchhaya.ecommerce.user.exception.KeycloakException;
 import co.istad.chanchhaya.ecommerce.user.service.KeycloakUserService;
 import jakarta.ws.rs.core.Response;
@@ -16,11 +17,10 @@ import org.springframework.stereotype.Service;
 public class KeycloakUserServiceImpl implements KeycloakUserService {
 
     private final Keycloak keycloak;
-    private final static String REALM_NAME = "ecommerce";
 
     @Override
     public void createKeycloakUser(UserRepresentation userRepresentation) {
-        try (Response response = keycloak.realm(REALM_NAME)
+        try (Response response = keycloak.realm(KeycloakAdminClientConfig.REALM_NAME)
                 .users()
                 .create(userRepresentation)) {
             if (response.getStatus() != HttpStatus.CREATED.value()) {
@@ -34,7 +34,7 @@ public class KeycloakUserServiceImpl implements KeycloakUserService {
 
     @Override
     public UserRepresentation getKeycloakUserByUsername(String username) {
-        return keycloak.realm(REALM_NAME)
+        return keycloak.realm(KeycloakAdminClientConfig.REALM_NAME)
                 .users()
                 .search(username, true)
                 .stream()

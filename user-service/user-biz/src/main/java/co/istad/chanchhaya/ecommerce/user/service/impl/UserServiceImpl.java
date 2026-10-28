@@ -7,12 +7,11 @@ import co.istad.chanchhaya.ecommerce.user.exception.PasswordMismatchException;
 import co.istad.chanchhaya.ecommerce.user.exception.UsernameConflictException;
 import co.istad.chanchhaya.ecommerce.user.mapper.UserMapper;
 import co.istad.chanchhaya.ecommerce.user.repository.UserRepository;
+import co.istad.chanchhaya.ecommerce.user.service.KeycloakRoleService;
 import co.istad.chanchhaya.ecommerce.user.service.KeycloakUserService;
 import co.istad.chanchhaya.ecommerce.user.service.UserService;
-import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.keycloak.admin.client.Keycloak;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.http.HttpStatus;
@@ -29,6 +28,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     private final KeycloakUserService keycloakUserService;
+    private final KeycloakRoleService keycloakRoleService;
 
     @Override
     public UserResponse create(UserCreateRequest userCreateRequest) {
@@ -63,6 +63,7 @@ public class UserServiceImpl implements UserService {
                 userEntity.getUsername()
         );
         log.info("User created: {}", createdUser);
+        keycloakRoleService.assignRoles(createdUser.getId(), userCreateRequest.roleName());
 
         // Saving user into database
         userEntity.setId(createdUser.getId());

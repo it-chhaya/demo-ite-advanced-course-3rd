@@ -16,6 +16,6 @@ public record UserCreateRequest(
         @NotBlank
         String confirmedPassword,
         @NotBlank
-        String roleId // use , as delimiter
+        String roleName // use , as delimiter
 ) {
 }
