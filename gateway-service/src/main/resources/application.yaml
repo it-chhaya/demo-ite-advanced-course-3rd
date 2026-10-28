@@ -15,7 +15,7 @@ spring:
     gateway:
       server:
         webflux:
-          routes:
+#          routes:
 #            - id: swagger-ui
 #              uri: http://localhost:8585
 #              predicates:
