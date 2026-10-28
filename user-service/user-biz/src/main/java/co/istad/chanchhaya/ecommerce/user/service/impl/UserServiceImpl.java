@@ -7,6 +7,7 @@ import co.istad.chanchhaya.ecommerce.user.exception.PasswordMismatchException;
 import co.istad.chanchhaya.ecommerce.user.exception.UsernameConflictException;
 import co.istad.chanchhaya.ecommerce.user.mapper.UserMapper;
 import co.istad.chanchhaya.ecommerce.user.repository.UserRepository;
+import co.istad.chanchhaya.ecommerce.user.service.KeycloakUserService;
 import co.istad.chanchhaya.ecommerce.user.service.UserService;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    private final Keycloak keycloak;
+    private final KeycloakUserService keycloakUserService;
 
     @Override
     public UserResponse create(UserCreateRequest userCreateRequest) {
@@ -57,22 +58,17 @@ public class UserServiceImpl implements UserService {
 
         userRepresentation.setCredentials(List.of(credentialRepresentation));
 
-        try (Response response = keycloak.realm("ecommerce")
-                .users()
-                .create(userRepresentation)) {
-            log.info("Keycloak response: {}", response.getStatus());
-            if (response.getStatus() == HttpStatus.CREATED.value()) {
-                log.info("Created user");
-            } else if (response.getStatus() == HttpStatus.CONFLICT.value()) {
-                log.info("Keycloak user data conflict");
-            } else {
-                log.info("Cannot create user");
-            }
-        }
+        keycloakUserService.createKeycloakUser(userRepresentation);
+        UserRepresentation createdUser = keycloakUserService.getKeycloakUserByUsername(
+                userEntity.getUsername()
+        );
+        log.info("User created: {}", createdUser);
 
+        // Saving user into database
+        userEntity.setId(createdUser.getId());
+        userRepository.save(userEntity);
 
-
-        return null;
+        return userMapper.toResponse(userEntity, createdUser);
     }
 
 }
