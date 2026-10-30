@@ -8,8 +8,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -65,6 +68,31 @@ public class KeycloakUserServiceImpl implements KeycloakUserService {
                 .users()
                 .get(id)
                 .toRepresentation();
+    }
+
+
+    @Override
+    public Slice<UserRepresentation> getKeycloakUsersByRoleName(String roleName, Pageable pageable) {
+        List<UserRepresentation> userRepresentationList = keycloak.realm(KeycloakAdminClientConfig.REALM_NAME)
+                .roles()
+                .get(roleName)
+                .getUserMembers((int) pageable.getOffset(), pageable.getPageSize() + 1);
+
+        boolean hasNext = userRepresentationList.size() > pageable.getPageSize();
+        List<UserRepresentation> content = hasNext ? userRepresentationList.subList(0, pageable.getPageSize()) : userRepresentationList;
+        return new SliceImpl<>(content, pageable, hasNext);
+    }
+
+
+    @Override
+    public Slice<UserRepresentation> getKeycloakUsers(Pageable pageable) {
+        List<UserRepresentation> userRepresentationList = keycloak.realm(KeycloakAdminClientConfig.REALM_NAME)
+                .users()
+                .list((int) pageable.getOffset(), pageable.getPageSize() + 1);
+
+        boolean hasNext = userRepresentationList.size() > pageable.getPageSize();
+        List<UserRepresentation> content = hasNext ? userRepresentationList.subList(0, pageable.getPageSize()) : userRepresentationList;
+        return new SliceImpl<>(content, pageable, hasNext);
     }
 
 

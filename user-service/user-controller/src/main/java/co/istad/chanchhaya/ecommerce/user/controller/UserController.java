@@ -1,11 +1,15 @@
 package co.istad.chanchhaya.ecommerce.user.controller;
 
+import co.istad.chanchhaya.ecommerce.restapi.dto.PageResponse;
 import co.istad.chanchhaya.ecommerce.user.dto.UserCreateRequest;
 import co.istad.chanchhaya.ecommerce.user.dto.UserResponse;
 import co.istad.chanchhaya.ecommerce.user.dto.UserUpdateRequest;
 import co.istad.chanchhaya.ecommerce.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +43,21 @@ public class UserController {
     @GetMapping("/username/{username}")
     public UserResponse getByUsername(@PathVariable String username) {
         return userService.getByUsername(username);
+    }
+
+
+    @GetMapping("/roles/{roleName}")
+    public PageResponse<UserResponse> getUsersByRoleName(@PathVariable String roleName,
+                                                         @RequestParam(defaultValue = "0", required = false) int pageNumber,
+                                                         @RequestParam(defaultValue = "15", required = false) int pageSize) {
+        return userService.getUsersByRoleName(roleName, PageRequest.of(pageNumber, pageSize));
+    }
+
+
+    @GetMapping
+    public PageResponse<UserResponse> getUsers(@RequestParam(defaultValue = "0", required = false) int pageNumber,
+                                               @RequestParam(defaultValue = "15", required = false) int pageSize) {
+        return userService.getUsers(PageRequest.of(pageNumber, pageSize));
     }
 
 

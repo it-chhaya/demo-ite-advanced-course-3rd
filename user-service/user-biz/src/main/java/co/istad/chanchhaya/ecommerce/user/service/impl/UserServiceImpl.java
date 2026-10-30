@@ -1,10 +1,12 @@
 package co.istad.chanchhaya.ecommerce.user.service.impl;
 
+import co.istad.chanchhaya.ecommerce.restapi.dto.PageResponse;
 import co.istad.chanchhaya.ecommerce.user.dto.UserCreateRequest;
 import co.istad.chanchhaya.ecommerce.user.dto.UserResponse;
 import co.istad.chanchhaya.ecommerce.user.dto.UserUpdateRequest;
 import co.istad.chanchhaya.ecommerce.user.entity.UserEntity;
 import co.istad.chanchhaya.ecommerce.user.exception.PasswordMismatchException;
+import co.istad.chanchhaya.ecommerce.user.exception.UserHybridDataInconsistencyException;
 import co.istad.chanchhaya.ecommerce.user.exception.UserNotFoundException;
 import co.istad.chanchhaya.ecommerce.user.exception.UsernameConflictException;
 import co.istad.chanchhaya.ecommerce.user.mapper.UserMapper;
@@ -16,6 +18,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -143,6 +149,20 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    public PageResponse<UserResponse> getUsersByRoleName(String roleName, Pageable pageable) {
+        Slice<UserRepresentation> userRepresentationSlice = keycloakUserService.getKeycloakUsersByRoleName(roleName, pageable);
+        return mergeUserEntityWithUserRepresentation(userRepresentationSlice);
+    }
+
+
+    @Override
+    public PageResponse<UserResponse> getUsers(PageRequest pageable) {
+        Slice<UserRepresentation> userRepresentationSlice = keycloakUserService.getKeycloakUsers(pageable);
+        return mergeUserEntityWithUserRepresentation(userRepresentationSlice);
+    }
+
+
+    @Override
     public void deleteById(String id) {
         UserEntity userEntity = userRepository
                 .findById(id)
@@ -152,5 +172,23 @@ public class UserServiceImpl implements UserService {
                 ));
         userRepository.delete(userEntity);
         keycloakUserService.deleteKeycloakUserById(id);
+    }
+
+
+    private PageResponse<UserResponse> mergeUserEntityWithUserRepresentation(Slice<UserRepresentation> userRepresentationSlice) {
+        List<UserResponse> userResponseList = userRepresentationSlice
+                .map(userRepresentation -> {
+                    UserEntity userEntity = userRepository.findById(userRepresentation.getId())
+                            .orElseThrow(() -> new UserHybridDataInconsistencyException(HttpStatus.INTERNAL_SERVER_ERROR,
+                                    "User hybrid data is inconsistent"));
+                    return userMapper.toResponse(userEntity, userRepresentation);
+                })
+                .toList();
+        return PageResponse.<UserResponse>builder()
+                .items(userResponseList)
+                .page(userRepresentationSlice.getNumber())
+                .size(userRepresentationSlice.getSize())
+                .hasNext(userRepresentationSlice.hasNext())
+                .build();
     }
 }
