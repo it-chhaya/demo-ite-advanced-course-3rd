@@ -2,8 +2,10 @@ package co.istad.chanchhaya.ecommerce.user.service.impl;
 
 import co.istad.chanchhaya.ecommerce.user.dto.UserCreateRequest;
 import co.istad.chanchhaya.ecommerce.user.dto.UserResponse;
+import co.istad.chanchhaya.ecommerce.user.dto.UserUpdateRequest;
 import co.istad.chanchhaya.ecommerce.user.entity.UserEntity;
 import co.istad.chanchhaya.ecommerce.user.exception.PasswordMismatchException;
+import co.istad.chanchhaya.ecommerce.user.exception.UserNotFoundException;
 import co.istad.chanchhaya.ecommerce.user.exception.UsernameConflictException;
 import co.istad.chanchhaya.ecommerce.user.mapper.UserMapper;
 import co.istad.chanchhaya.ecommerce.user.repository.UserRepository;
@@ -72,4 +74,83 @@ public class UserServiceImpl implements UserService {
         return userMapper.toResponse(userEntity, createdUser);
     }
 
+
+    @Override
+    public UserResponse update(String id, UserUpdateRequest userUpdateRequest) {
+
+        UserEntity userEntity = userRepository
+                .findById(id)
+                .orElseThrow(() -> new UserNotFoundException(
+                        HttpStatus.NOT_FOUND,
+                        "User not found"
+                ));
+
+        userMapper.toEntity(userUpdateRequest, userEntity);
+        userRepository.save(userEntity);
+
+        UserRepresentation userRepresentation = keycloakUserService
+                .getKeycloakUserByUsername(userEntity.getUsername());
+
+        // Attempt to Keycloak data
+        if (!(userUpdateRequest.familyName() == null && userUpdateRequest.givenName() == null)) {
+            if (userUpdateRequest.familyName() != null) {
+                userRepresentation.setFirstName(userUpdateRequest.familyName());
+            }
+
+            if (userUpdateRequest.givenName() != null) {
+                userRepresentation.setLastName(userUpdateRequest.givenName());
+            }
+
+            keycloakUserService.updateKeycloakUser(id, userRepresentation);
+        }
+
+        return userMapper.toResponse(userEntity, userRepresentation);
+    }
+
+
+    @Override
+    public UserResponse getById(String id) {
+        UserEntity userEntity = userRepository
+                .findById(id)
+                .orElseThrow(() -> new UserNotFoundException(
+                        HttpStatus.NOT_FOUND,
+                        "User not found"
+                ));
+        UserRepresentation userRepresentation = keycloakUserService.getKeycloakUserById(id);
+
+        return userMapper.toResponse(
+                userEntity,
+                userRepresentation
+        );
+    }
+
+
+    @Override
+    public UserResponse getByUsername(String username) {
+        UserEntity userEntity = userRepository
+                .findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(
+                        HttpStatus.NOT_FOUND,
+                        "User not found"
+                ));
+        UserRepresentation userRepresentation = keycloakUserService.getKeycloakUserByUsername(username);
+
+        return userMapper.toResponse(
+                userEntity,
+                userRepresentation
+        );
+    }
+
+
+    @Override
+    public void deleteById(String id) {
+        UserEntity userEntity = userRepository
+                .findById(id)
+                .orElseThrow(() -> new UserNotFoundException(
+                        HttpStatus.NOT_FOUND,
+                        "User not found"
+                ));
+        userRepository.delete(userEntity);
+        keycloakUserService.deleteKeycloakUserById(id);
+    }
 }
